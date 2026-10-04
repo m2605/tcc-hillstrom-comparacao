@@ -1,0 +1,7 @@
+# codigo dos autores: obtido do repositorio original, nao versionado (ACORDOS 1)
+upstream/
+# dados gerados pelos scripts
+dados/
+# compilacao C++
+build/
+__pycache__/
