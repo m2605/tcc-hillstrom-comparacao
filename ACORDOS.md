@@ -43,8 +43,17 @@ Do artigo do LBCF, apenas:
 Os demais (CT.ST, S-learner, T-learner etc.) não entram.
 
 **Benchmark NRA** (Le Boudec et al., 2026): também neste repositório, como trabalho à parte,
-com o código dos autores do NRA sob as mesmas regras. O conjunto de modelos será combinado
-quando chegarmos a ele.
+com o código dos autores do NRA sob as mesmas regras. Modelos (decisão de 03/10/2026, ver
+`PROTOCOLO_NRA.md`):
+
+| modelo | origem |
+|---|---|
+| X-Learner RF, X-Learner XGB | `execution_XL.ipynb` dos autores |
+| S-Learner XGB, T-Learner XGB | `execution_xgb.ipynb` dos autores |
+| ED, CTS | `execution_chi_ed.ipynb` e `execution_cts.ipynb` dos autores |
+| Chi | linhas comentadas no `execution_chi_ed.ipynb`, descomentadas |
+
+R-Learner, DR-Learner, S-Learner LR, T-Learner LR e TARNet não entram.
 
 ## 5. Cada passo é combinado antes e relatado depois
 

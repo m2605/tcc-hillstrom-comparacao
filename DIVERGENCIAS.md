@@ -33,3 +33,12 @@ caminhos de arquivo, índices de colunas e número de tratamentos.
 | X1 | erro-padrão, IC 95 % e z pareado contra Mens para todos | contribuição de cada cliente pela Eq. 2.3 de Zhao et al. (2017); IC normal; z = média da diferença pareada / seu erro-padrão (`lbcf/03_avaliacao/avalia.py`) | a média das contribuições é igual à `expected_outcome` do NRA em todas as políticas (diferença < 1e-12, verificada por `assert`) |
 | X2 | curva de uplift modificada | Zhao et al. (2017), §4.2: os p % com maior diferença prevista entre o tratamento ótimo e o controle recebem o ótimo; os demais, o controle | três pontos por modelo recalculados com a `expected_outcome` do NRA (`assert`) |
 | X3 | regras de tratamento único (nenhum, Mens, Womens para todos) | `expected_outcome` do NRA com política constante (Zhao et al., 2017, Fig. 3 e §4.2) | Mens para todos = taxa observada do grupo Mens no teste (1,252 %) |
+
+## Parte NRA
+
+| # | o quê | autores | este trabalho | motivo |
+|---|---|---|---|---|
+| N1 | Chi | linhas comentadas em `execution_chi_ed.ipynb` | descomentadas, sem outra mudança | decisão de 03/10/2026 |
+| N2 | TARNet | descrito no artigo (§3.1.3; 5º de 12 na Tabela 2), ausente do código | não entra | decisão de 03/10/2026: é o único método sem código dos autores; rodá-lo exigiria escolher arquitetura, treino e validação sem especificação no artigo. Sem ele, tudo o que roda na parte NRA é código dos autores |
+| N3 | R-Learner, DR-Learner, S-Learner LR, T-Learner LR | na Tabela 2; R/DR no código com nomes trocados; S/T-LR não executados | não entram | decisão de 03/10/2026 |
+| N4 | dados e métrica | sintéticos com viés NRA; RMSE e *expected outcome* | Hillstrom (experimento aleatorizado, sem viés a induzir), mesma divisão da parte LBCF (L1); só *expected outcome* | RMSE exige o uplift verdadeiro, inexistente em dado real |
