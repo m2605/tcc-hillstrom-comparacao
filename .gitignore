@@ -5,3 +5,4 @@ dados/
 # compilacao C++
 build/
 __pycache__/
+tcc/_montagem/
