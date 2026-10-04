@@ -20,6 +20,7 @@ rodado **com o código publicado pelos próprios autores**, aplicados à base Hi
 | `ACORDOS.md` | regras de trabalho deste repositório |
 | `PROTOCOLO_LBCF.md`, `PROTOCOLO_NRA.md` | o que cada artigo e cada código fazem, com página e arquivo:linha |
 | `DIVERGENCIAS.md` | toda diferença em relação aos autores, e os acréscimos nossos |
+| `HIPERPARAMETROS.md` | origem dos hiperparâmetros, valores de cada modelo e o experimento cruzado |
 
 ## Resultados
 
