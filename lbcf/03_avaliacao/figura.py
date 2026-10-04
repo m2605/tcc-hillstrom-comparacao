@@ -13,7 +13,7 @@ tab = pd.read_csv(os.path.join(RES, "avaliacao.csv"))
 cur = pd.read_csv(os.path.join(RES, "curvas.csv"))
 
 SURF, INK, INK2, MUTED, GRID, AXIS = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
-MODELOS = ["UDCF", "UDCF default", "Ablação", "MBCF", "Chi", "ED", "CTS"]
+MODELOS = ["UDCF", "UDCF default", "UDCF sem intra-split", "MBCF", "Chi", "ED", "CTS"]
 COR = dict(zip(MODELOS, ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7"]))
 mens = tab.loc[tab.modelo == "Mens para todos", "resposta_esperada"].item()
 

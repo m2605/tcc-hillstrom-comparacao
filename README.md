@@ -6,7 +6,7 @@ rodado **com o código publicado pelos próprios autores**, aplicados à base Hi
 
 | parte | artigo | modelos |
 |---|---|---|
-| **LBCF** | Ai et al. (2022), *LBCF: A Large-Scale Budget-Constrained Causal Forest Algorithm*, WWW '22 | UDCF, UDCF default, Ablação, MBCF, Chi, ED, CTS |
+| **LBCF** | Ai et al. (2022), *LBCF: A Large-Scale Budget-Constrained Causal Forest Algorithm*, WWW '22 | UDCF, UDCF default, UDCF sem intra-split, MBCF, Chi, ED, CTS |
 | **NRA** | Le Boudec et al. (2026), *Multi-treatment uplift evaluation on non-random assignment biased data*, DKE 163 | X-Learner RF, X-Learner XGB, S-Learner XGB, T-Learner XGB, Chi, ED, CTS |
 
 **Métrica:** *expected outcome* de Zhao, Fang & Simchi-Levi (2017), pela função
@@ -48,7 +48,7 @@ Na raiz do repositório, em ordem:
 
 ```bash
 python lbcf/01_dados/prep_hillstrom.py                         # baixa a Hillstrom; divisão 70/30
-bash   lbcf/02_modelos/udcf/roda_udcf.sh                       # no WSL: UDCF, UDCF default, Ablação
+bash   lbcf/02_modelos/udcf/roda_udcf.sh                       # no WSL: UDCF, UDCF default, UDCF sem intra-split
 bash   lbcf/02_modelos/mbcf/roda_mbcf.sh                       # no WSL: MBCF
 python lbcf/02_modelos/chi_ed_cts/Chi_ED_CTS_train_and_predict-RCT.py
 python lbcf/03_avaliacao/avalia.py && python lbcf/03_avaliacao/figura.py

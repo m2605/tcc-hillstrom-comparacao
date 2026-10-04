@@ -52,7 +52,7 @@ vêm do padrão da biblioteca.
 |---|---|---|
 | **UDCF** | 300 árvores, `sample_fraction` 0,5, `mtry` 3, `min_node_size` 50, honestidade (fração 0,5, com poda), `alpha` 0,05, **`imbalance_penalty` 0**, `stabilize_splits` = true, semente 42 | `default_options(true,1)` com `imbalance_penalty` trocado (DIVERGENCIAS L3) |
 | **UDCF default** | idem, **`imbalance_penalty` 0,01** | `default_options(true,1)`, valores dos autores |
-| **Ablação** | idem ao UDCF, `imbalance_penalty` 0, **`stabilize_splits` = false** | DIVERGENCIAS L4 |
+| **UDCF sem intra-split** | idem ao UDCF, `imbalance_penalty` 0, **`stabilize_splits` = false** | DIVERGENCIAS L4 |
 | **MBCF** | uma floresta instrumental por braço, `reduced_form_weight` 0, `stabilize_splits` = false, opções de `default_options(true,1)` (inclui `imbalance_penalty` 0,01), semente 42 | `MBCF_RCT/core/main.cpp` dos autores |
 | **Chi, ED, CTS** | `n_estimators` 300, `max_depth` 5, `min_samples_leaf` 100, `min_samples_treatment` 50, `n_reg` 100, `normalization` = True, `n_jobs` 1, *`max_features` 10*, `random_state` 42 | `Chi_ED_CTS_train_and_predict-RCT.py:12-14`; semente acrescentada (DIVERGENCIAS L5) |
 

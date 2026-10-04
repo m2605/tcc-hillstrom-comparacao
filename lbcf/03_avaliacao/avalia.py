@@ -42,7 +42,7 @@ def le_previsoes():
     """Matriz (n, 2): efeito previsto de Mens e de Womens contra o controle."""
     prev = {}
     for nome, arq in (("UDCF", "udcf.csv"), ("UDCF default", "udcf_default.csv"),
-                      ("Ablação", "ablacao.csv")):
+                      ("UDCF sem intra-split", "ablacao.csv")):
         prev[nome] = pd.read_csv(os.path.join(PRED, arq), header=None).to_numpy()
     prev["MBCF"] = np.column_stack([
         pd.read_csv(os.path.join(PRED, "mbcf", f"MBCF_uplift_{k}.csv"), header=None)[0]
@@ -108,7 +108,7 @@ z_mens = contribuicoes(np.ones(n, dtype=int))
 linhas = [linha(rot, "tratamento único", np.full(n, k), z_mens)
           for rot, k in (("Nenhum e-mail", 0), ("Mens para todos", 1), ("Womens para todos", 2))]
 curvas = {}
-for nome in ("UDCF", "UDCF default", "Ablação", "MBCF", "Chi", "ED", "CTS"):
+for nome in ("UDCF", "UDCF default", "UDCF sem intra-split", "MBCF", "Chi", "ED", "CTS"):
     linhas.append(linha(nome, "modelo", uplift_to_policy(prev[nome]), z_mens))
     fr, curvas[nome] = curva(prev[nome])
 

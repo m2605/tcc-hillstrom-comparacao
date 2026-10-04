@@ -36,7 +36,7 @@ Do artigo do LBCF, apenas:
 |---|---|
 | **UDCF** | UDCF com `imbalance_penalty = 0` |
 | **UDCF default** | UDCF com `imbalance_penalty = 0.01`, o valor do código dos autores |
-| **Ablação** | UDCF com `stabilize_splits = false` e `imbalance_penalty = 0` (mesmo valor do UDCF, para isolar a regra de divisão) |
+| **UDCF sem intra-split** (antes chamado Ablação) | UDCF com `stabilize_splits = false` e `imbalance_penalty = 0` (mesmo valor do UDCF, para isolar a regra de divisão) |
 | **MBCF** | baseline CF.DT dos autores (uma floresta por braço) |
 | **Chi, ED, CTS** | baselines da CausalML, com os hiperparâmetros do script dos autores |
 
