@@ -33,6 +33,7 @@ caminhos de arquivo, índices de colunas e número de tratamentos.
 | X1 | erro-padrão, IC 95 % e z pareado contra Mens para todos | contribuição de cada cliente pela Eq. 2.3 de Zhao et al. (2017); IC normal; z = média da diferença pareada / seu erro-padrão (`lbcf/03_avaliacao/avalia.py`) | a média das contribuições é igual à `expected_outcome` do NRA em todas as políticas (diferença < 1e-12, verificada por `assert`) |
 | X2 | curva de uplift modificada | Zhao et al. (2017), §4.2: os p % com maior diferença prevista entre o tratamento ótimo e o controle recebem o ótimo; os demais, o controle | três pontos por modelo recalculados com a `expected_outcome` do NRA (`assert`) |
 | X3 | regras de tratamento único (nenhum, Mens, Womens para todos) | `expected_outcome` do NRA com política constante (Zhao et al., 2017, Fig. 3 e §4.2) | Mens para todos = taxa observada do grupo Mens no teste (1,252 %) |
+| X4 | experimento: Chi, ED e CTS pelo pipeline do NRA com os hiperparâmetros do LBCF | entradas como nos cadernos do NRA; hiperparâmetros de `Chi_ED_CTS_train_and_predict-RCT.py:12-14`; semente 42 e `n_jobs` padrão, como no NRA (`nra/04_experimento_hiper_lbcf/roda.py`) | comparação das previsões com as da parte LBCF, que usa `n_jobs = 1`. Isola o efeito dos hiperparâmetros: decisão de 04/10/2026 |
 
 ## Parte NRA
 
