@@ -25,3 +25,11 @@ caminhos de arquivo, índices de colunas e número de tratamentos.
 | A1 | versão mínima do CMake | `cmake_minimum_required(VERSION 2.0)` no `CMakeLists.txt` | arquivo intocado; configurado com `cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ..` | o CMake 4 recusa versões mínimas abaixo de 3.5; a opção de linha de comando é a que o próprio CMake indica e não muda o código |
 | A2 | executável pré-compilado no zip | `UDCF_RCT/core/build/UDCF` (compilado em 2021) | descartado; recompilado do código-fonte, seguindo o README (`rm -r *`, `cmake ..`, `make`) | garantir que o executável corresponde ao código; o alvo do `CMakeLists.txt` gera `UDCF_RCT` (o README cita `./UDCF`) |
 | A3 | nomes das colunas na saída do Chi, ED e CTS | `pd.DataFrame(pred, columns=model.classes_)` (`Chi_ED_CTS_train_and_predict-RCT.py:17,25,33`); versão da CausalML não fixada pelos autores | `columns=` `classes_` sem o controle | na CausalML 0.17.0, `classes_` inclui o controle e `predict` devolve só os tratamentos, e a linha original quebra; o arquivo de resultado publicado pelos autores (`Chi_ED_CTS/5Chiresult`) tem colunas só dos tratamentos (`1,2,3`), formato que esta mudança reproduz. Só muda o nome das colunas; os valores são os do `predict` |
+
+## Acréscimos (não existem no código dos autores)
+
+| # | o quê | como | conferência |
+|---|---|---|---|
+| X1 | erro-padrão, IC 95 % e z pareado contra Mens para todos | contribuição de cada cliente pela Eq. 2.3 de Zhao et al. (2017); IC normal; z = média da diferença pareada / seu erro-padrão (`lbcf/03_avaliacao/avalia.py`) | a média das contribuições é igual à `expected_outcome` do NRA em todas as políticas (diferença < 1e-12, verificada por `assert`) |
+| X2 | curva de uplift modificada | Zhao et al. (2017), §4.2: os p % com maior diferença prevista entre o tratamento ótimo e o controle recebem o ótimo; os demais, o controle | três pontos por modelo recalculados com a `expected_outcome` do NRA (`assert`) |
+| X3 | regras de tratamento único (nenhum, Mens, Womens para todos) | `expected_outcome` do NRA com política constante (Zhao et al., 2017, Fig. 3 e §4.2) | Mens para todos = taxa observada do grupo Mens no teste (1,252 %) |
