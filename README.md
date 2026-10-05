@@ -26,8 +26,8 @@ rodado **com o código publicado pelos próprios autores**, aplicados à base Hi
 
 | parte | tabela | figura |
 |---|---|---|
-| LBCF | `resultados/lbcf/avaliacao.md` | `resultados/lbcf/avaliacao_lbcf.png` |
-| NRA | `resultados/nra/avaliacao.md` | `resultados/nra/avaliacao_nra.png` |
+| LBCF | `resultados/lbcf/avaliacao.md` | `resultados/lbcf/avaliacao_lbcf_a.png` e `_b.png` |
+| NRA | `resultados/nra/avaliacao.md` | `resultados/nra/avaliacao_nra_a.png` e `_b.png` |
 
 As previsões de cada modelo no teste estão em `resultados/<parte>/predicoes/`.
 

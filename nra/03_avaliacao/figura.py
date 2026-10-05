@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Figura da avaliação, no formato de Zhao, Fang & Simchi-Levi (2017):
+"""Figuras da avaliação, no formato de Zhao, Fang & Simchi-Levi (2017), em duas imagens:
 (a) barras da resposta esperada, políticas de tratamento único em cinza e modelos em cor
     (como as Figs. 3 e 4 do artigo), com o intervalo de confiança de 95 %;
 (b) curva de uplift modificada (como as Figs. 2 e 5), com a política de tratamento único de
     maior resposta esperada como linha de referência (como a Fig. 1).
+Título, desfecho e conjunto de teste ficam na legenda do texto, não na imagem.
 Uso: python figura.py <lbcf|nra>
 """
 import os
@@ -51,8 +52,7 @@ def limpa(ax):
     ax.tick_params(colors=MUTED, labelsize=8.5)
 
 
-fig, (a, b) = plt.subplots(1, 2, figsize=(13.5, 5.6), facecolor=SURF,
-                           gridspec_kw={"width_ratios": [1.15, 1]})
+fig_a, a = plt.subplots(figsize=(9.5, 4.9), facecolor=SURF)
 
 # (a) barras da resposta esperada
 ordem = ["Nenhum e-mail", "Womens para todos", "Mens para todos"] + MODELOS
@@ -72,8 +72,11 @@ a.yaxis.set_major_locator(MultipleLocator(0.2))
 a.yaxis.set_major_formatter(virgula)
 limpa(a)
 a.set_ylabel("resposta esperada (%)", fontsize=9, color=INK2)
-a.set_title("(a) Resposta esperada, com intervalo de confiança de 95%", loc="left",
-            fontsize=10.5, color=INK)
+a.set_title("(a)", loc="left", fontsize=11, color=INK)
+fig_a.tight_layout()
+fig_a.savefig(os.path.join(RES, SAIDA.replace(".png", "_a.png")), dpi=200, facecolor=SURF)
+
+fig_b, b = plt.subplots(figsize=(9.5, 4.9), facecolor=SURF)
 
 # (b) curvas de uplift modificadas
 mens = tab.loc[tab.modelo == "Mens para todos", "resposta_esperada"].item()
@@ -87,11 +90,9 @@ b.xaxis.set_major_formatter(virgula)
 b.yaxis.set_major_formatter(virgula2)
 b.set_xlabel("fração da população tratada", fontsize=9, color=INK2)
 b.set_ylabel("resposta esperada (%)", fontsize=9, color=INK2)
-b.set_title("(b) Curva de uplift modificada", loc="left", fontsize=10.5, color=INK)
+b.set_title("(b)", loc="left", fontsize=11, color=INK)
 b.legend(frameon=False, fontsize=8.3, labelcolor=INK2, loc="lower right", ncol=2)
 
-fig.suptitle(f"{TITULO}: desfecho conversão, conjunto de teste (n = 19.200)",
-             x=0.008, ha="left", fontsize=12, color=INK)
-fig.tight_layout(rect=[0, 0, 1, 0.94])
-fig.savefig(os.path.join(RES, SAIDA), dpi=200, facecolor=SURF)
-print("gravado:", os.path.join("resultados", PARTE, SAIDA))
+fig_b.tight_layout()
+fig_b.savefig(os.path.join(RES, SAIDA.replace(".png", "_b.png")), dpi=200, facecolor=SURF)
+print("gravado:", os.path.join("resultados", PARTE, SAIDA.replace(".png", "_a.png / _b.png")))
