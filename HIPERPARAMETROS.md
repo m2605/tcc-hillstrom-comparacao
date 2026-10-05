@@ -89,23 +89,23 @@ separar o efeito dos hiperparâmetros do efeito de cada pipeline, rodaram-se:
 
 Os três usam os mesmos treino e teste, a mesma semente (42) e a mesma métrica.
 
-| critério | hiper. LBCF, script LBCF | hiper. LBCF, pipeline NRA | diferença das previsões | hiper. NRA, pipeline NRA | LBCF − NRA | z pareado |
-|---|---|---|---|---|---|---|
-| Chi | 1,283 % | 1,283 % | 0 (idênticas) | 1,110 % | +0,172 pp | +1,72 |
-| ED | 1,345 % | 1,345 % | 0 (idênticas) | 1,063 % | +0,282 pp | +2,66 |
-| CTS | 1,235 % | 1,235 % | 0 (idênticas) | 1,079 % | +0,157 pp | +1,51 |
+| critério | hiper. LBCF, script LBCF | hiper. LBCF, pipeline NRA | diferença das previsões | hiper. NRA, pipeline NRA |
+|---|---|---|---|---|
+| Chi | 1,283 % | 1,283 % | 0 (idênticas) | 1,110 % |
+| ED | 1,345 % | 1,345 % | 0 (idênticas) | 1,063 % |
+| CTS | 1,235 % | 1,235 % | 0 (idênticas) | 1,079 % |
 
 **Leitura.**
 - Com os mesmos hiperparâmetros, os dois pipelines produzem previsões **idênticas**. A
   diferença entre as partes LBCF e NRA nesses três métodos deve-se, portanto,
   **exclusivamente aos hiperparâmetros**.
-- A configuração do LBCF é melhor nos três critérios. A diferença é significativa no ED
-  (z = 2,66, acima também do limite de Bonferroni para três comparações, ≈ 2,39) e não
-  significativa no Chi e no CTS.
-- **Mecanismo:** com árvores de profundidade 50–70 e pouca regularização, as estimativas
-  por folha refletem ruído; as políticas mudam a recomendação de 36–42 % dos clientes e se
-  afastam do melhor tratamento único (Mens E-Mail). Com profundidade 5 e `n_reg` 100, as
-  estimativas são puxadas para a média e a política fica perto da referência.
+- A configuração do LBCF obteve a maior resposta esperada nos três critérios.
+- **Relação com a literatura:** Zhao, Fang & Simchi-Levi (2017, §3.1) introduzem a
+  regularização `n_reg` para evitar que estimativas em nós com poucas observações sejam
+  dominadas por valores atípicos; a configuração do LBCF usa `n_reg` = 100 e profundidade
+  máxima 5, a do NRA usa o padrão 10 e profundidade 50 ou 70.
+- Até 05/10/2026 este documento trazia um teste z pareado entre as configurações; ele foi
+  retirado por não ter apoio em nenhum dos artigos de referência.
 - **Alcance:** o resultado vale para estas duas configurações nesta base; não é um juízo
   sobre os métodos. Como os quatro hiperparâmetros mudam juntos, não se identificou qual
   deles responde pela diferença.

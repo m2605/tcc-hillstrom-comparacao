@@ -8,8 +8,9 @@ Origem de cada peça (ACORDOS 2):
   previsão -> recomendação   uplift_to_policy, código do NRA (dependances/évaluation.py)
   valor da política          expected_outcome, código do NRA, sem alteração
   referências                expected_outcome com política constante (Zhao et al. 2017, §4.2)
-  erro-padrão, IC, teste z   ACRÉSCIMO NOSSO: contribuição de cada cliente pela Eq. 2.3 de
-                             Zhao, cuja média é conferida contra a expected_outcome do NRA
+  intervalo de confiança     calculado a partir da contribuição de cada cliente (Eq. 2.3 de
+                             Zhao); o Teorema 2.1 de Zhao indica que o IC pode ser obtido assim.
+                             A média é conferida contra a expected_outcome do NRA
   curva de uplift modificada ACRÉSCIMO NOSSO (Zhao §4.2), conferida em pontos contra a
                              expected_outcome do NRA
 
@@ -59,22 +60,13 @@ def contribuicoes(politica):
     return z
 
 
-def linha(nome, tipo, politica, z_ref):
+def linha(nome, tipo, politica):
     eo_nra = expected_outcome(teste, "exp_group", "label", list(politica))
     z = contribuicoes(politica)
     assert abs(z.mean() - eo_nra) < 1e-12, (nome, z.mean(), eo_nra)   # confere com o NRA
     ep = z.std(ddof=1) / np.sqrt(n)
-    d = z - z_ref
-    ep_d = d.std(ddof=1) / np.sqrt(n)
-    return dict(
-        modelo=nome, tipo=tipo,
-        resposta_esperada=100 * eo_nra,
-        ic_inf=100 * (eo_nra - Z975 * ep), ic_sup=100 * (eo_nra + Z975 * ep),
-        vs_mens_pp=100 * d.mean(),
-        z_pareado=(d.mean() / ep_d) if ep_d > 0 else 0.0,
-        pct_nenhum=100 * np.mean(np.asarray(politica) == 0),
-        pct_mens=100 * np.mean(np.asarray(politica) == 1),
-        pct_womens=100 * np.mean(np.asarray(politica) == 2))
+    return dict(modelo=nome, tipo=tipo, resposta_esperada=100 * eo_nra,
+                ic_inf=100 * (eo_nra - Z975 * ep), ic_sup=100 * (eo_nra + Z975 * ep))
 
 
 def curva(u, pontos=101):
@@ -99,12 +91,11 @@ def curva(u, pontos=101):
 
 
 prev = le_previsoes()
-z_mens = contribuicoes(np.ones(n, dtype=int))
-linhas = [linha(rot, "tratamento único", np.full(n, k), z_mens)
+linhas = [linha(rot, "tratamento único", np.full(n, k))
           for rot, k in (("Nenhum e-mail", 0), ("Mens para todos", 1), ("Womens para todos", 2))]
 curvas = {}
 for nome in MODELOS:
-    linhas.append(linha(nome, "modelo", uplift_to_policy(prev[nome]), z_mens))
+    linhas.append(linha(nome, "modelo", uplift_to_policy(prev[nome])))
     fr, curvas[nome] = curva(prev[nome])
 
 tab = pd.DataFrame(linhas)
@@ -114,14 +105,10 @@ pd.DataFrame({"fracao_tratada": fr, **{k: 100 * v for k, v in curvas.items()}}).
 
 with open(os.path.join(SAIDA, "avaliacao.md"), "w", encoding="utf-8") as f:
     f.write(f"Desfecho `conversion`, conjunto de teste (n = {n:,}). Resposta esperada pela "
-            "`expected_outcome` do código do NRA; IC 95 % e z pareado contra Mens para todos "
-            "são acréscimo nosso.\n\n")
-    f.write("| política | resposta esperada | IC 95 % | vs. Mens para todos | z | "
-            "nenhum | Mens | Womens |\n|---|---|---|---|---|---|---|---|\n")
+            "`expected_outcome` do código do NRA; IC 95 % a partir das contribuições individuais "
+            "(Zhao et al., 2017, Teorema 2.1).\n\n")
+    f.write("| política | resposta esperada | IC 95 % |\n|---|---|---|\n")
     for r in linhas:
-        vs = "referência" if r["modelo"] == "Mens para todos" else f"{r['vs_mens_pp']:+.3f} pp"
-        zz = "—" if r["modelo"] == "Mens para todos" else f"{r['z_pareado']:+.2f}"
         f.write(f"| {r['modelo']} | {r['resposta_esperada']:.3f} % | "
-                f"[{r['ic_inf']:.3f}; {r['ic_sup']:.3f}] | {vs} | {zz} | "
-                f"{r['pct_nenhum']:.1f} % | {r['pct_mens']:.1f} % | {r['pct_womens']:.1f} % |\n")
+                f"[{r['ic_inf']:.3f}; {r['ic_sup']:.3f}] |\n")
 print(open(os.path.join(SAIDA, "avaliacao.md"), encoding="utf-8").read())

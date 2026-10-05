@@ -6,9 +6,9 @@ Para cada critério:
   - configuração LBCF pelo pipeline do NRA             (resultados/nra/experimento_hiper_lbcf)
   - configuração NRA pelo pipeline do NRA              (resultados/nra/predicoes)
 
-Valor da política: expected_outcome do código do NRA. Teste pareado (LBCF - NRA) pela
-contribuição de cada cliente (Eq. 2.3 de Zhao et al., 2017; acréscimo X1), conferida contra
-a expected_outcome. Grava resultados/nra/experimento_hiper_lbcf/comparacao.md.
+Valor da política: expected_outcome do código do NRA (conferida contra a média das
+contribuições individuais, Eq. 2.3 de Zhao et al., 2017). Grava
+resultados/nra/experimento_hiper_lbcf/comparacao.md.
 """
 import importlib
 import os
@@ -52,22 +52,19 @@ for crit in ("Chi", "ED", "CTS"):
     u_nra = pd.read_csv(os.path.join(R, "resultados", "nra", "predicoes",
                                      f"{crit}.csv"))[["1", "2"]].to_numpy()
     pol_lbcf, pol_cruz, pol_nra = (ava.uplift_to_policy(u) for u in (u_lbcf, u_cruz, u_nra))
-    d = contribuicoes(pol_lbcf) - contribuicoes(pol_nra)
-    ep = d.std(ddof=1) / np.sqrt(n)
     linhas.append(dict(
         crit=crit,
         lbcf=100 * valor(pol_lbcf), cruz=100 * valor(pol_cruz), nra=100 * valor(pol_nra),
-        dif_pipeline=np.abs(u_lbcf - u_cruz).max(),
-        dif=100 * d.mean(), z=d.mean() / ep, decisoes=100 * np.mean(pol_lbcf != pol_nra)))
+        dif_pipeline=np.abs(u_lbcf - u_cruz).max()))
 
 out = os.path.join(R, "resultados", "nra", "experimento_hiper_lbcf", "comparacao.md")
 with open(out, "w", encoding="utf-8") as f:
     f.write("Desfecho `conversion`, conjunto de teste (n = 19.200). Resposta esperada pela "
-            "`expected_outcome` do código do NRA; z pareado é acréscimo nosso.\n\n")
+            "`expected_outcome` do código do NRA.\n\n")
     f.write("| critério | hiper. LBCF, script LBCF | hiper. LBCF, pipeline NRA | "
-            "dif. máx. das previsões | hiper. NRA, pipeline NRA | LBCF − NRA | z pareado | "
-            "decisões diferentes |\n|---|---|---|---|---|---|---|---|\n")
+            "dif. máx. das previsões | hiper. NRA, pipeline NRA |\n|---|---|---|---|---|\n")
     for r in linhas:
-        f.write(f"| {r['crit']} | {r['lbcf']:.3f} % | {r['cruz']:.3f} % | {'0 (idênticas)' if r['dif_pipeline'] == 0 else f"{r['dif_pipeline']:.0e}"} | "
-                f"{r['nra']:.3f} % | {r['dif']:+.3f} pp | {r['z']:+.2f} | {r['decisoes']:.1f} % |\n")
+        dif = "0 (idênticas)" if r["dif_pipeline"] == 0 else f"{r['dif_pipeline']:.0e}"
+        f.write(f"| {r['crit']} | {r['lbcf']:.3f} % | {r['cruz']:.3f} % | {dif} | "
+                f"{r['nra']:.3f} % |\n")
 print(open(out, encoding="utf-8").read())
