@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Figuras da avaliação, no formato de Zhao, Fang & Simchi-Levi (2017), em duas imagens:
+"""Figuras da avaliação, no formato de Zhao, Fang & Simchi-Levi (2017), em duas imagens separadas:
 (a) barras da resposta esperada, políticas de tratamento único em cinza e modelos em cor
     (como as Figs. 3 e 4 do artigo), com o intervalo de confiança de 95 %;
 (b) curva de uplift modificada (como as Figs. 2 e 5), com a política de tratamento único de
@@ -72,9 +72,8 @@ a.yaxis.set_major_locator(MultipleLocator(0.2))
 a.yaxis.set_major_formatter(virgula)
 limpa(a)
 a.set_ylabel("resposta esperada (%)", fontsize=9, color=INK2)
-a.set_title("(a)", loc="left", fontsize=11, color=INK)
 fig_a.tight_layout()
-fig_a.savefig(os.path.join(RES, SAIDA.replace(".png", "_a.png")), dpi=200, facecolor=SURF)
+fig_a.savefig(os.path.join(RES, SAIDA.replace(".png", "_resposta.png")), dpi=200, facecolor=SURF)
 
 fig_b, b = plt.subplots(figsize=(9.5, 4.9), facecolor=SURF)
 
@@ -90,9 +89,8 @@ b.xaxis.set_major_formatter(virgula)
 b.yaxis.set_major_formatter(virgula2)
 b.set_xlabel("fração da população tratada", fontsize=9, color=INK2)
 b.set_ylabel("resposta esperada (%)", fontsize=9, color=INK2)
-b.set_title("(b)", loc="left", fontsize=11, color=INK)
 b.legend(frameon=False, fontsize=8.3, labelcolor=INK2, loc="lower right", ncol=2)
 
 fig_b.tight_layout()
-fig_b.savefig(os.path.join(RES, SAIDA.replace(".png", "_b.png")), dpi=200, facecolor=SURF)
-print("gravado:", os.path.join("resultados", PARTE, SAIDA.replace(".png", "_a.png / _b.png")))
+fig_b.savefig(os.path.join(RES, SAIDA.replace(".png", "_curva.png")), dpi=200, facecolor=SURF)
+print("gravado:", os.path.join("resultados", PARTE, SAIDA.replace(".png", "_resposta.png / _curva.png")))
